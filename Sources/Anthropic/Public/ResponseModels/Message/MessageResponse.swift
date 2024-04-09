@@ -84,12 +84,10 @@ public struct MessageResponse: Decodable {
    
    public enum Content: Decodable {
       
-      public typealias Input = [String: String]
-      
       case text(String)
-      case toolUse(id: String, name: String, input: Input)
-      
-      private enum CodingKeys: String, CodingKey {
+      case toolUse(id: String, name: String, container: KeyedDecodingContainer<CodingKeys>)
+
+      public enum CodingKeys: String, CodingKey {
          case type, text, id, name, input
       }
       
@@ -103,8 +101,7 @@ public struct MessageResponse: Decodable {
          case "tool_use":
             let id = try container.decode(String.self, forKey: .id)
             let name = try container.decode(String.self, forKey: .name)
-            let input = try container.decode(Input.self, forKey: .input)
-            self = .toolUse(id: id, name: name, input: input)
+            self = .toolUse(id: id, name: name, container: container)
          default:
             throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "Invalid type value found in JSON!")
          }

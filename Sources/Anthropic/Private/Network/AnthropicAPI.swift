@@ -9,23 +9,21 @@ import Foundation
 
 // MARK: AnthropicAPI
 
-enum AnthropicAPI {
-   case messages
-   case textCompletions
+struct AnthropicAPI {
+    let base: String
+
+    var messages: Endpoint {
+        StaticEndpoint(base: base, path: "/v1/messages")
+    }
+
+    var textCompletions: Endpoint {
+        StaticEndpoint(base: base, path: "/v1/complete")
+    }
 }
 
 // MARK: AnthropicAPI+Endpoint
 
-extension AnthropicAPI: Endpoint {
-   
-   var base: String {
-      "https://api.anthropic.com"
-   }
-   
-   var path: String {
-      switch self {
-      case .messages: return "/v1/messages"
-      case .textCompletions: return "/v1/complete"
-      }
-   }
+struct StaticEndpoint: Endpoint {
+    let base: String
+    let path: String
 }

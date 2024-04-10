@@ -32,7 +32,7 @@ extension Endpoint {
       -> URLComponents
    {
       var components = URLComponents(string: base)!
-      components.path = path
+      components.path = (components.path ?? "") + path
       if !queryItems.isEmpty {
          components.queryItems = queryItems
       }

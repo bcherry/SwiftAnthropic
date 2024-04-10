@@ -13,15 +13,15 @@ struct DefaultAnthropicService: AnthropicService {
    let decoder: JSONDecoder
    let apiKey: String
    let apiVersion: String
-   let baseUrl: String
-
+   let basePath: String
+   
    private static let betaHeader = "tools-2024-04-04"
 
    init(
       apiKey: String,
-      apiVersion: String,
-      baseUrl: String,
-      configuration: URLSessionConfiguration = .default)
+      apiVersion: String = "2023-06-01",
+      basePath: String,
+>     configuration: URLSessionConfiguration = .default)
    {
       self.session = URLSession(configuration: configuration)
       let decoderWithSnakeCaseStrategy = JSONDecoder()
@@ -29,7 +29,7 @@ struct DefaultAnthropicService: AnthropicService {
       self.decoder = decoderWithSnakeCaseStrategy
       self.apiKey = apiKey
       self.apiVersion = apiVersion
-      self.baseUrl = baseUrl
+      self.basePath = basePath
    }
    
    // MARK: Message
@@ -40,7 +40,7 @@ struct DefaultAnthropicService: AnthropicService {
    {
       var localParameter = parameter
       localParameter.stream = false
-      let request = try AnthropicAPI(base: baseUrl).messages.request(apiKey: apiKey, version: apiVersion, method: .post, params: localParameter, beta: Self.betaHeader)
+      let request = try AnthropicAPI(base: basePath, apiPath: .messages).request(apiKey: apiKey, version: apiVersion, method: .post, params: localParameter, beta: Self.betaHeader)
       return try await fetch(type: MessageResponse.self, with: request)
    }
    
@@ -50,7 +50,7 @@ struct DefaultAnthropicService: AnthropicService {
    {
       var localParameter = parameter
       localParameter.stream = true
-      let request = try AnthropicAPI(base: baseUrl).messages.request(apiKey: apiKey, version: apiVersion, method: .post, params: localParameter, beta: Self.betaHeader)
+      let request = try AnthropicAPI(base: basePath, apiPath: .messages).request(apiKey: apiKey, version: apiVersion, method: .post, params: localParameter, beta: Self.betaHeader)
       return try await fetchStream(type: MessageStreamResponse.self, with: request)
    }
    
@@ -63,7 +63,7 @@ struct DefaultAnthropicService: AnthropicService {
    {
       var localParameter = parameter
       localParameter.stream = false
-      let request = try AnthropicAPI(base: baseUrl).textCompletions.request(apiKey: apiKey, version: apiVersion, method: .post, params: localParameter)
+      let request = try AnthropicAPI(base: basePath, apiPath: .textCompletions).request(apiKey: apiKey, version: apiVersion, method: .post, params: localParameter)
       return try await fetch(type: TextCompletionResponse.self, with: request)
    }
    
@@ -73,7 +73,7 @@ struct DefaultAnthropicService: AnthropicService {
    {
       var localParameter = parameter
       localParameter.stream = true
-      let request = try AnthropicAPI(base: baseUrl).textCompletions.request(apiKey: apiKey, version: apiVersion, method: .post, params: localParameter)
+      let request = try AnthropicAPI(base: basePath, apiPath: .textCompletions).request(apiKey: apiKey, version: apiVersion, method: .post, params: localParameter)
       return try await fetchStream(type: TextCompletionStreamResponse.self, with: request)
    }
    

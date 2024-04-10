@@ -21,7 +21,7 @@ struct DefaultAnthropicService: AnthropicService {
       apiKey: String,
       apiVersion: String = "2023-06-01",
       basePath: String,
->     configuration: URLSessionConfiguration = .default)
+      configuration: URLSessionConfiguration = .default)
    {
       self.session = URLSession(configuration: configuration)
       let decoderWithSnakeCaseStrategy = JSONDecoder()

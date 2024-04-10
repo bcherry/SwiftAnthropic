@@ -87,13 +87,13 @@ public struct MessageResponse: Decodable {
       public typealias Input = [String: DynamicContent]
       
       case text(String)
-      case toolUse(id: String, name: String, container: KeyedDecodingContainer<CodingKeys>)
+      case toolUse(id: String, name: String, input: Input)
 
       public enum CodingKeys: String, CodingKey {
          case type, text, id, name, input
       }
       
-      public enum DynamicContent: Decodable {
+      public enum DynamicContent: Decodable, Encodable {
 
          case string(String)
          case integer(Int)
@@ -123,6 +123,26 @@ public struct MessageResponse: Decodable {
                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Content cannot be decoded")
             }
          }
+
+          public func encode(to encoder: any Encoder) throws {
+              var container = encoder.singleValueContainer()
+              switch self {
+              case .string(let val):
+                  try container.encode(val)
+              case .integer(let val):
+                  try container.encode(val)
+              case .double(let val):
+                  try container.encode(val)
+              case .dictionary(let val):
+                  try container.encode(val)
+              case .array(let val):
+                  try container.encode(val)
+              case .bool(let val):
+                  try container.encode(val)
+              case .null:
+                  try container.encodeNil()
+              }
+          }
       }
 
       public init(from decoder: Decoder) throws {
@@ -135,7 +155,8 @@ public struct MessageResponse: Decodable {
          case "tool_use":
             let id = try container.decode(String.self, forKey: .id)
             let name = try container.decode(String.self, forKey: .name)
-            self = .toolUse(id: id, name: name, container: container)
+            let input = try container.decode(Input.self, forKey: .input)
+            self = .toolUse(id: id, name: name, input: input)
          default:
             throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "Invalid type value found in JSON!")
          }

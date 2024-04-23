@@ -89,7 +89,7 @@ public struct MessageResponse: Decodable {
       case text(String)
       case toolUse(id: String, name: String, input: Input)
 
-      public enum CodingKeys: String, CodingKey {
+      private enum CodingKeys: String, CodingKey {
          case type, text, id, name, input
       }
       

@@ -10,9 +10,10 @@ import Foundation
 // MARK: AnthropicAPI
 
 struct AnthropicAPI {
+   
    let base: String
    let apiPath: APIPath
-
+   
    enum APIPath {
       case messages
       case textCompletions

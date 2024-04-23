@@ -27,7 +27,7 @@ public final class AnthropicServiceFactory {
    {
       DefaultAnthropicService(
          apiKey: apiKey,
-         apiVersion: apiVersion,
+         apiVersion: apiVersion, 
          basePath: basePath,
          configuration: configuration)
    }

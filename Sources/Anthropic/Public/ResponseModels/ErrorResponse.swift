@@ -42,12 +42,12 @@ import Foundation
  If you exceed the rate limit you will get a 429 error. Once you’re ready to go live we’ll discuss the appropriate rate limit with you.
  */
 
-struct ErrorResponse: Decodable {
+struct ErrorResponse: Codable {
    
    let type: String
    let error: Error
    
-   struct Error: Decodable {
+   struct Error: Codable {
       
       let type: String
       

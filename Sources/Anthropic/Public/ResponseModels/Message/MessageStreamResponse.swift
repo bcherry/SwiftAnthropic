@@ -27,7 +27,7 @@ import Foundation
 /// - `message_stop`: Denotes the conclusion of the message transmission.
 ///
 /// This structured sequence facilitates the orderly reception and processing of message components and overall changes.
-public struct MessageStreamResponse: Decodable {
+public struct MessageStreamResponse: Codable {
    
    public let type: String
    
@@ -39,7 +39,7 @@ public struct MessageStreamResponse: Decodable {
    
    public let delta: Delta?
    
-   public struct Delta: Decodable {
+   public struct Delta: Codable {
       
       public let type: String?
       
@@ -50,7 +50,7 @@ public struct MessageStreamResponse: Decodable {
       public let stopSequence: String?
    }
    
-   public struct ContentBlock: Decodable {
+   public struct ContentBlock: Codable {
       
       public let type: String
       

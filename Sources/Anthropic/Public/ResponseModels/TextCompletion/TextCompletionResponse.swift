@@ -8,7 +8,7 @@
 import Foundation
 
 /// [Completion Response](https://docs.anthropic.com/claude/reference/complete_post)
-public struct TextCompletionResponse: Decodable {
+public struct TextCompletionResponse: Codable {
    
    /// Unique object identifier.
    ///

@@ -8,7 +8,7 @@
 import Foundation
 
 /// [Message Response](https://docs.anthropic.com/claude/reference/messages_post)
-public struct MessageResponse: Decodable {
+public struct MessageResponse: Codable {
     /// Unique object identifier.
     ///
     /// The format and length of IDs may change over time.

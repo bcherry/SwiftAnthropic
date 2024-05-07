@@ -8,7 +8,7 @@
 import Foundation
 
 /// [Text Completion Response](https://docs.anthropic.com/claude/reference/streaming)
-public struct TextCompletionStreamResponse: Decodable {
+public struct TextCompletionStreamResponse: Codable {
    
    public let type: String
 
